@@ -1,0 +1,8 @@
+datetime
+pandas
+numpy
+rpy2
+nfl_data_py
+Flask
+matplotlib
+scikit-learn
