@@ -60,13 +60,17 @@ async def statbot():
     if playerWeekData.empty:
         return jsonify({"message": f"It appears that {cleanName} was inactive for week #{cleanWeek}"}), 200
 
-    ### Parse all relevant stats for all positions weekly recap ####
+    ### Player Info All Positions ####
+    playerID = playerWeekData['player_id']
+    playerPosition = playerWeekData['position'].to_string(index=False)
+    playerPositionGroup = playerWeekData['position_group'].to_string(index=False)
     playerImage = playerWeekData['headshot_url']
     playerImageURL = playerImage.iloc[0]
-    playerPosition = playerWeekData['position'].to_string(index=False)
     playerTeam = playerWeekData['recent_team'].to_string(index=False)
     playerSeason = playerWeekData['season'].to_string(index=False)
+    playerSeasonType = playerWeekData['season_type'].to_string(index=False)
     playerOpponent = playerWeekData['opponent_team'].to_string(index=False)
+    ######### Passing Statistics ################
     playerCompletions = playerWeekData['completions'].to_string(index=False)
     playerAttempts = playerWeekData['attempts'].to_string(index=False)
     playerPassingYards = playerWeekData['passing_yards'].to_string(index=False)
@@ -76,24 +80,42 @@ async def statbot():
     playerSackYardsTaken = playerWeekData['sack_yards'].to_string(index=False)
     playerSackFumbles = playerWeekData['sack_fumbles'].to_string(index=False)
     playerSackFumblesLost = playerWeekData['sack_fumbles_lost'].to_string(index=False)
+    playerPassingAirYards = playerWeekData['passing_air_yards'].to_string(index=False)
+    playerPassingYAC = playerWeekData['passing_yards_after_catch'].to_string(index=False)
+    playerPassingFirstDowns = playerWeekData['passing_first_downs'].to_string(index=False)
+    playerPassingEPA = playerWeekData['passing_epa'].to_string(index=False)# Expected Points Added measures how well a team performs compared to their expectation on a play-by-play basis
     playerPassing2ptConversions = playerWeekData['passing_2pt_conversions'].to_string(index=False)
+    playerPACR = playerWeekData['pacr'].to_string(index=False)# PACR = passing_yards / passing_air_yards
+    ############ ??? Statistics ??? Google These ############################
+    playerDakota = playerWeekData['dakota'].to_string(index=False) # Adjusted EPA + CPOE composite based on coefficients which best predict adjusted EPA/play in the following year.
+    ############ Rushing Statistics #########################
     playerCarries = playerWeekData['carries'].to_string(index=False)
     playerRushingYards = playerWeekData['rushing_yards'].to_string(index=False)
     playerRushingTds = playerWeekData['rushing_tds'].to_string(index=False)
     playerRushingFumbles = playerWeekData['rushing_fumbles'].to_string(index=False)
     playerRushingFumblesLost = playerWeekData['rushing_fumbles_lost'].to_string(index=False)
+    playerRushingFirstDowns = playerWeekData['rushing_first_downs'].to_string(index=False)
+    playerRushingEPA = playerWeekData['rushing_epa'].to_string(index=False)
     playerRushing2ptConversions = playerWeekData['rushing_2pt_conversions'].to_string(index=False)
+    ############## Receiving Statistics ###################
     playerReceptions = playerWeekData['receptions'].to_string(index=False)
     playerTargets = playerWeekData['targets'].to_string(index=False)
     playerReceivingYards = playerWeekData['receiving_yards'].to_string(index=False)
     playerReceivingTds = playerWeekData['receiving_tds'].to_string(index=False)
     playerReceivingFumbles = playerWeekData['receiving_fumbles'].to_string(index=False)
     playerReceivingFumblesLost = playerWeekData['receiving_fumbles_lost'].to_string(index=False)
-    playerYardsAfterCatch = playerWeekData['receiving_yards_after_catch'].to_string(index=False)
+    playerReceivingAirYards = playerWeekData['receiving_air_yards'].to_string(index=False)
+    playerReceivingYardsAfterCatch = playerWeekData['receiving_yards_after_catch'].to_string(index=False)
+    playerReceivingFirstDowns = playerWeekData['receiving_first_downs'].to_string(index=False)
+    playerReceivingEPA = playerWeekData['receiving_epa'].to_string(index=False)
     playerReceiving2ptConversions = playerWeekData['receiving_2pt_conversions'].to_string(index=False)
+    playerRacr = playerWeekData['racr'].to_string(index=False)# ratio dividing receiving yards by total air yards
     playerTargetShare = playerWeekData['target_share'].to_string(index=False)
+    playerAirYardsShare = playerWeekData['air_yards_share'].to_string(index=False)
+    playerWopr = playerWeekData['wopr'].to_string(index=False)# WOPR = 1.5 × Target Market Share + 0.7 × Air Yards Market Share
     playerSpecialTeamsTds = playerWeekData['special_teams_tds'].to_string(index=False)
-    playerFantasyPPR = playerWeekData['fantasy_points_ppr'].to_string(index=False)
+    playerFantasyPoints = playerWeekData['fantasy_points'].to_string(index=False)
+    playerFantasyPointsPPR = playerWeekData['fantasy_points_ppr'].to_string(index=False)
     ###########################################################################
 
     playerTotalFumbles = playerWeekData['sack_fumbles'] + playerWeekData['rushing_fumbles'] + playerWeekData['receiving_fumbles']
@@ -113,41 +135,52 @@ async def statbot():
                 "player": cleanName,
                 "week": cleanWeek,
                 "season": playerSeason,
+                "season_type": playerSeasonType,
                 "team": playerTeam,
                 "position": playerPosition,
                 "opponent": playerOpponent,
+                "dakota": playerDakota,
+                "fantasy_points": playerFantasyPoints,
+                "fantasy_points_ppr": playerFantasyPointsPPR,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
                     "yards": playerPassingYards,
                     "touchdowns": playerPassingTds,
-                    "2pt_conversions": playerPassing2ptConversions,
+                    # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
-                    "sack_yards": playerSackYardsTaken
+                    "sack_yards": playerSackYardsTaken,
+                    "passing_air_yards": playerPassingAirYards,
+                    "passing_yards_after_catch": playerPassingYAC,
+                    "passing_first_downs": playerPassingFirstDowns,
+                    "passing_epa": playerPassingEPA,
+                    "pacr": playerPACR,
                 },
                 "rushing": {
                     "carries": playerCarries,
                     "yards": playerRushingYards,
                     "touchdowns": playerRushingTds,
-                    "2pt_conversions": playerRushing2ptConversions
+                    # "2pt_conversions": playerRushing2ptConversions,
+                    "rushing_first_downs": playerRushingFirstDowns,
+                    "rushing_epa": playerRushingEPA,
                 },
-                "receiving": {
-                    "receptions": playerReceptions,
-                    "targets": playerTargets,
-                    "yards": playerReceivingYards,
-                    "yards_after_catch": playerYardsAfterCatch,
-                    "touchdowns": playerReceivingTds,
-                    "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%"
-                },
+                # "receiving": {
+                #     "receptions": playerReceptions,
+                #     "targets": playerTargets,
+                #     "yards": playerReceivingYards,
+                #     "yards_after_catch": playerReceivingYardsAfterCatch,
+                #     "touchdowns": playerReceivingTds,
+                #     "2pt_conversions": playerReceiving2ptConversions,
+                #     "target_share": cleanShare + "%"
+                # },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
                     "fumbles": playerTotalFumblesStr,
                     "fumbles_lost": playerFumblesLostStr
                 },
-                "special_teams": {
-                    "touchdowns": playerSpecialTeamsTds
-                }
+                # "special_teams": {
+                #     "touchdowns": playerSpecialTeamsTds
+                # }
             }
         elif playerPosition == 'WR':
             recap_data = {
@@ -155,15 +188,19 @@ async def statbot():
                 "player": cleanName,
                 "week": cleanWeek,
                 "season": playerSeason,
+                "season_type": playerSeasonType,
                 "team": playerTeam,
                 "position": playerPosition,
                 "opponent": playerOpponent,
+                "dakota": playerDakota,
+                "fantasy_points": playerFantasyPoints,
+                "fantasy_points_ppr": playerFantasyPointsPPR,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
                     "yards": playerPassingYards,
                     "touchdowns": playerPassingTds,
-                    "2pt_conversions": playerPassing2ptConversions,
+                    # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
                     "sack_yards": playerSackYardsTaken
                 },
@@ -171,16 +208,24 @@ async def statbot():
                     "carries": playerCarries,
                     "yards": playerRushingYards,
                     "touchdowns": playerRushingTds,
-                    "2pt_conversions": playerRushing2ptConversions
+                    # "2pt_conversions": playerRushing2ptConversions,
+                    "rushing_first_downs": playerRushingFirstDowns,
+                    "rushing_epa": playerRushingEPA,
                 },
                 "receiving": {
                     "receptions": playerReceptions,
                     "targets": playerTargets,
                     "yards": playerReceivingYards,
-                    "yards_after_catch": playerYardsAfterCatch,
+                    "yards_after_catch": playerReceivingYardsAfterCatch,
                     "touchdowns": playerReceivingTds,
-                    "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%"
+                    # "2pt_conversions": playerReceiving2ptConversions,
+                    "target_share": cleanShare + "%",
+                    "receiving_air_yards": playerReceivingAirYards,
+                    "receiving_first_downs": playerReceivingFirstDowns,
+                    "receiving_epa": playerReceivingEPA,
+                    "racr": playerRacr,
+                    "air_yards_share": playerAirYardsShare,
+                    "wopr": playerWopr,
                 },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
@@ -197,15 +242,19 @@ async def statbot():
                 "player": cleanName,
                 "week": cleanWeek,
                 "season": playerSeason,
+                "season_type": playerSeasonType,
                 "team": playerTeam,
                 "position": playerPosition,
                 "opponent": playerOpponent,
+                "dakota": playerDakota,
+                "fantasy_points": playerFantasyPoints,
+                "fantasy_points_ppr": playerFantasyPointsPPR,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
                     "yards": playerPassingYards,
                     "touchdowns": playerPassingTds,
-                    "2pt_conversions": playerPassing2ptConversions,
+                    # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
                     "sack_yards": playerSackYardsTaken
                 },
@@ -213,16 +262,24 @@ async def statbot():
                     "carries": playerCarries,
                     "yards": playerRushingYards,
                     "touchdowns": playerRushingTds,
-                    "2pt_conversions": playerRushing2ptConversions
+                    # "2pt_conversions": playerRushing2ptConversions,
+                    "rushing_first_downs": playerRushingFirstDowns,
+                    "rushing_epa": playerRushingEPA,
                 },
                 "receiving": {
                     "receptions": playerReceptions,
                     "targets": playerTargets,
                     "yards": playerReceivingYards,
-                    "yards_after_catch": playerYardsAfterCatch,
+                    "yards_after_catch": playerReceivingYardsAfterCatch,
                     "touchdowns": playerReceivingTds,
-                    "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%"
+                    # "2pt_conversions": playerReceiving2ptConversions,
+                    "target_share": cleanShare + "%",
+                    "receiving_air_yards": playerReceivingAirYards,
+                    "receiving_first_downs": playerReceivingFirstDowns,
+                    "receiving_epa": playerReceivingEPA,
+                    "racr": playerRacr,
+                    "air_yards_share": playerAirYardsShare,
+                    "wopr": playerWopr,
                 },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
@@ -239,15 +296,19 @@ async def statbot():
                 "player": cleanName,
                 "week": cleanWeek,
                 "season": playerSeason,
+                "season_type": playerSeasonType,
                 "team": playerTeam,
                 "position": playerPosition,
                 "opponent": playerOpponent,
+                "dakota": playerDakota,
+                "fantasy_points": playerFantasyPoints,
+                "fantasy_points_ppr": playerFantasyPointsPPR,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
                     "yards": playerPassingYards,
                     "touchdowns": playerPassingTds,
-                    "2pt_conversions": playerPassing2ptConversions,
+                    # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
                     "sack_yards": playerSackYardsTaken
                 },
@@ -255,16 +316,78 @@ async def statbot():
                     "carries": playerCarries,
                     "yards": playerRushingYards,
                     "touchdowns": playerRushingTds,
-                    "2pt_conversions": playerRushing2ptConversions
+                    # "2pt_conversions": playerRushing2ptConversions,
+                    "rushing_first_downs": playerRushingFirstDowns,
+                    "rushing_epa": playerRushingEPA,
                 },
                 "receiving": {
                     "receptions": playerReceptions,
                     "targets": playerTargets,
                     "yards": playerReceivingYards,
-                    "yards_after_catch": playerYardsAfterCatch,
+                    "yards_after_catch": playerReceivingYardsAfterCatch,
                     "touchdowns": playerReceivingTds,
-                    "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%"
+                    # "2pt_conversions": playerReceiving2ptConversions,
+                    "target_share": cleanShare + "%",
+                    "receiving_air_yards": playerReceivingAirYards,
+                    "receiving_first_downs": playerReceivingFirstDowns,
+                    "receiving_epa": playerReceivingEPA,
+                    "racr": playerRacr,
+                    "air_yards_share": playerAirYardsShare,
+                    "wopr": playerWopr,
+                },
+                "turnovers": {
+                    "interceptions": playerInterceptionsThrown,
+                    "fumbles": playerTotalFumblesStr,
+                    "fumbles_lost": playerFumblesLostStr
+                },
+                "special_teams": {
+                    "touchdowns": playerSpecialTeamsTds
+                }
+            }
+        elif playerName == 'Taysom Hill':
+            recap_data = {
+                "image": playerImageURL,
+                "player": cleanName,
+                "week": cleanWeek,
+                "season": playerSeason,
+                "season_type": playerSeasonType,
+                "team": playerTeam,
+                "position": playerPosition,
+                "opponent": playerOpponent,
+                "dakota": playerDakota,
+                "fantasy_points": playerFantasyPoints,
+                "fantasy_points_ppr": playerFantasyPointsPPR,
+                "passing": {
+                    "completions": playerCompletions,
+                    "attempts": playerAttempts,
+                    "yards": playerPassingYards,
+                    "touchdowns": playerPassingTds,
+                    # "2pt_conversions": playerPassing2ptConversions,
+                    "sacks": playerSacksTaken,
+                    "sack_yards": playerSackYardsTaken
+                },
+                "rushing": {
+                    "carries": playerCarries,
+                    "yards": playerRushingYards,
+                    "touchdowns": playerRushingTds,
+                    # "2pt_conversions": playerRushing2ptConversions,
+                    "rushing_first_downs": playerRushingFirstDowns,
+                    "rushing_epa": playerRushingEPA,
+                },
+                "receiving": {
+                    "receptions": playerReceptions,
+                    "targets": playerTargets,
+                    "yards": playerReceivingYards,
+                    "yards_after_catch": playerReceivingYardsAfterCatch,
+                    "touchdowns": playerReceivingTds,
+                    # "2pt_conversions": playerReceiving2ptConversions,
+                    "target_share": cleanShare + "%",
+                    "receiving_air_yards": playerReceivingAirYards,
+                    "receiving_first_downs": playerReceivingFirstDowns,
+                    "receiving_epa": playerReceivingEPA,
+                    "racr": playerRacr,
+                    "air_yards_share": playerAirYardsShare,
+                    "wopr": playerWopr,
                 },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
@@ -276,7 +399,6 @@ async def statbot():
                 }
             }
         return jsonify(recap_data), 200
-        # Add elif conditions for other positions (RB, WR, TE) here, following a similar structure
     
     else:
         playerWeekStatData = playerWeekData[stat].to_string(index=False)

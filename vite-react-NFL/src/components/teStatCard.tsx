@@ -1,15 +1,7 @@
 import React from "react";
-import {
-  Box,
-  Image,
-  Text,
-  VStack,
-  HStack,
-  Divider,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Image, Text, VStack, HStack, Divider } from "@chakra-ui/react";
 
-interface PlayerStats {
+interface TEStats {
   image: string;
   player: string;
   week: number;
@@ -63,14 +55,11 @@ interface PlayerStats {
   };
 }
 
-interface PlayerStatsProps {
-  stats: PlayerStats;
+interface TEStatsProps {
+  stats: TEStats;
 }
 
-const PlayerStatsCard: React.FC<PlayerStatsProps> = ({ stats }) => {
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const textColor = useColorModeValue("gray.800", "white");
-
+const TEStatsCard: React.FC<TEStatsProps> = ({ stats }) => {
   return (
     <Box
       borderWidth="1px"
@@ -80,8 +69,6 @@ const PlayerStatsCard: React.FC<PlayerStatsProps> = ({ stats }) => {
       boxShadow="md"
       maxW="sm"
       mx="auto"
-      bg={bgColor}
-      color={textColor}
     >
       <VStack spacing={4}>
         <Image borderRadius="md" src={stats.image} alt={stats.player} />
@@ -135,4 +122,4 @@ const PlayerStatsCard: React.FC<PlayerStatsProps> = ({ stats }) => {
   );
 };
 
-export default PlayerStatsCard;
+export default TEStatsCard;

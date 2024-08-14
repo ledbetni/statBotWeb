@@ -3,54 +3,58 @@ import axios from "axios";
 import { Box, Input, Button, Text, Heading, Select } from "@chakra-ui/react";
 import PlayerStatsCard from "./playerStatsCard";
 
-// interface StatbotData {
-//   player: string;
-//   week: number;
-//   season: string;
-//   statName: string;
-//   [key: string]: any;
-// }
-
 interface StatbotData {
   image: string;
-  opponent: string;
-  passing: {
-    "2pt_conversions": string;
-    attempts: string;
-    completions: string;
-    sack_yards: string;
-    sacks: string;
-    touchdowns: string;
-    yards: string;
-  };
   player: string;
+  week: number;
+  season: string;
+  season_type: string;
+  team: string;
   position: string;
-  receiving: {
-    "2pt_conversions": string;
-    receptions: string;
-    target_share: string;
-    targets: string;
-    touchdowns: string;
+  opponent: string;
+  dakota: string;
+  fantasy_points: string;
+  fantasy_points_ppr: string;
+  passing: {
+    // "2pt_conversions": string;
+    completions: string;
+    attempts: string;
     yards: string;
-    yards_after_catch: string;
+    touchdowns: string;
+    sacks: string;
+    sack_yards: string;
   };
   rushing: {
-    "2pt_conversions": string;
+    // "2pt_conversions": string;
     carries: string;
-    touchdowns: string;
     yards: string;
-  };
-  season: string;
-  special_teams: {
     touchdowns: string;
+    rushing_first_downs: string;
+    rushing_epa: string;
   };
-  team: string;
+  receiving: {
+    // "2pt_conversions": string;
+    receptions: string;
+    targets: string;
+    yards: string;
+    yards_after_catch: string;
+    touchdowns: string;
+    target_share: string;
+    receiving_air_yards: string;
+    receiving_first_downs: string;
+    receiving_epa: string;
+    racr: string;
+    air_yards_share: string;
+    wopr: string;
+  };
   turnovers: {
     fumbles: string;
     fumbles_lost: string;
     interceptions: string;
   };
-  week: number;
+  special_teams: {
+    touchdowns: string;
+  };
 }
 
 const PlayerDataEntry: React.FC = () => {
@@ -103,9 +107,9 @@ const PlayerDataEntry: React.FC = () => {
 
   return (
     <Box p={5} maxW="500px" mx="auto">
-      <Heading as="h1" mb={4}>
+      {/* <Heading as="h1" mb={4}>
         Statbot Data
-      </Heading>
+      </Heading> */}
       <Box mb={4}>
         <Text mb={2}>Player Name:</Text>
         <Input
@@ -153,24 +157,7 @@ const PlayerDataEntry: React.FC = () => {
       <Button colorScheme="blue" onClick={fetchData} isLoading={loading}>
         Fetch Data
       </Button>
-      {/* {loading && <Text mt={4}>Loading...</Text>}
-      {error && (
-        <Text mt={4} color="red.500">
-          {error}
-        </Text>
-      )}
-      {data && (
-        <Box mt={4}>
-          <Heading as="h2" size="md">
-            Player: {playerName}
-          </Heading>
-          <Text>Week: {week}</Text>
-          <Text>Season: {season}</Text>
-          <Text>Stat Name: {statName}</Text>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </Box>
-      )}
-    </Box> */}
+
       {loading && <Text mt={4}>Loading...</Text>}
       {error && (
         <Text mt={4} color="red.500">
