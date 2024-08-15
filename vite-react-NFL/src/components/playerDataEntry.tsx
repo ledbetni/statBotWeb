@@ -177,7 +177,7 @@ const PlayerDataEntry: React.FC = () => {
             onChange={(e) => setWeek(e.target.value)}
           /> */}
           <Select
-            placeholder="Select week"
+            placeholder="Select"
             value={week}
             onChange={(e) => setWeek(e.target.value)}
           >
@@ -191,7 +191,7 @@ const PlayerDataEntry: React.FC = () => {
         <Box fontWeight={"bold"} flex="1">
           <Text mb={2}>Season:</Text>
           <Select
-            placeholder="Select year"
+            placeholder="Select"
             value={season}
             onChange={(e) => setSeason(e.target.value)}
           >
