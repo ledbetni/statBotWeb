@@ -78,8 +78,8 @@ const PlayerDataEntry: React.FC = () => {
   const [boxLoad, setBoxLoad] = useState<boolean>(true);
 
   const years = Array.from(
-    new Array(26),
-    (_, index) => new Date().getFullYear() - index
+    new Array(25),
+    (_, index) => new Date().getFullYear() - 1 - index
   );
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const PlayerDataEntry: React.FC = () => {
     setError(null);
     try {
       const response = await axios.post<StatbotData>(
-        "https://34.82.250.65:5000/statbot",
+        "https://sslstatbot.com/statbot",
         {
           args: [playerName, week, statName, season],
         }

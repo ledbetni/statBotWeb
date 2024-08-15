@@ -14,6 +14,10 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax'
 )
 
+@app.route('/healthz')
+def health_check():
+    return 'OK', 200
+
 @app.route('/columns', methods=['GET'])
 async def get_columns():
     year = int(2023)
