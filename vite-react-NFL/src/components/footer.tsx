@@ -1,27 +1,22 @@
-import { useState } from "react";
 import {
   Box,
   Container,
   Text,
-  Link,
   Stack,
   HStack,
   useColorModeValue,
 } from "@chakra-ui/react";
 function Footer() {
-  const [isExpanded] = useState(false);
-  const bgColor = useColorModeValue("white", "gray.800");
-  const expandedBgColor = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.800", "white");
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-  const scrollToProjects = () => {
-    const projectsSection = document.getElementById("projects");
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // function scrollToTop() {
+  //   window.scrollTo({ top: 0, behavior: "smooth" });
+  // }
+  // const scrollToProjects = () => {
+  //   const projectsSection = document.getElementById("projects");
+  //   if (projectsSection) {
+  //     projectsSection.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
   return (
     <Box

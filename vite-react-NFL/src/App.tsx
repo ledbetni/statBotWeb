@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Flex,
-  Input,
-  Button,
-  Text,
-  Select,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import axios from "axios";
+import { Box, Flex } from "@chakra-ui/react";
 import AppBar from "./components/appBar";
 import Footer from "./components/footer";
 import "./App.css";
 import PlayerDataEntry from "./components/playerDataEntry";
-import PlayerStatsCard from "./components/playerStatsCard";
 
 function App() {
   return (
