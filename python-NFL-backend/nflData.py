@@ -1,21 +1,18 @@
 import datetime
 import pandas as pd
 import numpy as np
-import rpy2.robjects as robjects
-from rpy2.robjects.packages import importr
 import nfl_data_py as nfl
-import os
-import urllib.request
-import matplotlib.pyplot as pit
-from matplotlib.offsetbox import AnnotationBbox
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax'
+)
 
 @app.route('/columns', methods=['GET'])
 async def get_columns():
@@ -466,7 +463,8 @@ def snakeToTitle(stat):
     return ' '.join([word.capitalize() for word in stat.split('_')])
 
     
-    
+# def main(request):
+#     return app(request)   
 
 
 if __name__ == "__main__":

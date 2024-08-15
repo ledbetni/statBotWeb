@@ -1,8 +1,6 @@
-datetime
+Flask
+flask-cors
+gunicorn
 pandas
 numpy
-rpy2
-nfl_data_py
-Flask
-matplotlib
-scikit-learn
+nfl-data-py

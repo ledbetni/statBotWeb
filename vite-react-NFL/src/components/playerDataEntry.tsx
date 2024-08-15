@@ -87,9 +87,9 @@ const PlayerDataEntry: React.FC = () => {
     const fetchColumns = async () => {
       try {
         const response = await axios.get<string[]>(
-          "http://127.0.0.1:5000/columns"
+          "http://34.82.250.65:5000/columns"
         );
-        // setColumns(["recap", ...response.data]);
+        //setColumns(["recap", ...response.data]);
         setColumns(["recap"]);
       } catch (err) {
         console.error("Failed to fetch columns", err);
@@ -105,7 +105,7 @@ const PlayerDataEntry: React.FC = () => {
     setError(null);
     try {
       const response = await axios.post<StatbotData>(
-        "http://127.0.0.1:5000/statbot",
+        "http://34.82.250.65:5000/statbot",
         {
           args: [playerName, week, statName, season],
         }
