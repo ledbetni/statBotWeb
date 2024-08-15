@@ -14,9 +14,21 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax'
 )
 
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    return response
+
 @app.route('/healthz')
 def health_check():
     return 'OK', 200
+
+@app.route('/healthz', methods=['POST'])
+def health_check_post():
+    # Simulate some POST logic if needed
+    return 'POST OK', 200
 
 @app.route('/columns', methods=['GET'])
 async def get_columns():

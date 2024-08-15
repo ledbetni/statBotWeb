@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import axiosRetry from "axios-retry";
 import { Box, Input, Button, Text, Select, Flex } from "@chakra-ui/react";
 import QBStatsCard from "./qbStatCard";
 import WRStatsCard from "./wrStatCard";
@@ -97,6 +98,8 @@ const PlayerDataEntry: React.FC = () => {
 
     fetchColumns();
   }, []);
+
+  axiosRetry(axios, { retries: 5 });
 
   const fetchData = async () => {
     console.log("fetchData function called");
