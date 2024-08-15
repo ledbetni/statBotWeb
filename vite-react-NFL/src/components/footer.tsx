@@ -26,7 +26,11 @@ function Footer() {
   return (
     <Box
       as="footer"
-      bg={isExpanded ? expandedBgColor : bgColor}
+      position="fixed"
+      bottom="0"
+      right="0"
+      // bg={isExpanded ? expandedBgColor : bgColor}
+      bg="transparent"
       color={textColor}
       transition="background-color 0.3s"
       py="6"

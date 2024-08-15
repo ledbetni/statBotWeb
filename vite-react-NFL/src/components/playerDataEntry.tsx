@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Input, Button, Text, Heading, Select } from "@chakra-ui/react";
+import { Box, Input, Button, Text, Select, Flex } from "@chakra-ui/react";
 import PlayerStatsCard from "./playerStatsCard";
+import QBStatsCard from "./qbStatCard";
+import WRStatsCard from "./wrStatCard";
+import RBStatsCard from "./rbStatCard";
+import TEStatsCard from "./teStatCard";
+import TaysomStatsCard from "./taysomStatCard";
 
 interface StatbotData {
   image: string;
@@ -15,7 +20,7 @@ interface StatbotData {
   dakota: string;
   fantasy_points: string;
   fantasy_points_ppr: string;
-  passing: {
+  passing?: {
     // "2pt_conversions": string;
     completions: string;
     attempts: string;
@@ -23,8 +28,13 @@ interface StatbotData {
     touchdowns: string;
     sacks: string;
     sack_yards: string;
+    passing_air_yards: string;
+    passing_yards_after_catch: string;
+    passing_first_downs: string;
+    passing_epa: string;
+    pacr: string;
   };
-  rushing: {
+  rushing?: {
     // "2pt_conversions": string;
     carries: string;
     yards: string;
@@ -32,7 +42,7 @@ interface StatbotData {
     rushing_first_downs: string;
     rushing_epa: string;
   };
-  receiving: {
+  receiving?: {
     // "2pt_conversions": string;
     receptions: string;
     targets: string;
@@ -47,12 +57,12 @@ interface StatbotData {
     air_yards_share: string;
     wopr: string;
   };
-  turnovers: {
+  turnovers?: {
     fumbles: string;
     fumbles_lost: string;
     interceptions: string;
   };
-  special_teams: {
+  special_teams?: {
     touchdowns: string;
   };
 }
@@ -66,6 +76,7 @@ const PlayerDataEntry: React.FC = () => {
   const [data, setData] = useState<StatbotData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [boxLoad, setBoxLoad] = useState<boolean>(true);
 
   const years = Array.from(
     new Array(26),
@@ -78,7 +89,8 @@ const PlayerDataEntry: React.FC = () => {
         const response = await axios.get<string[]>(
           "http://127.0.0.1:5000/columns"
         );
-        setColumns(["recap", ...response.data]);
+        // setColumns(["recap", ...response.data]);
+        setColumns(["recap"]);
       } catch (err) {
         console.error("Failed to fetch columns", err);
       }
@@ -88,6 +100,7 @@ const PlayerDataEntry: React.FC = () => {
   }, []);
 
   const fetchData = async () => {
+    console.log("fetchData function called");
     setLoading(true);
     setError(null);
     try {
@@ -98,10 +111,45 @@ const PlayerDataEntry: React.FC = () => {
         }
       );
       setData(response.data);
+      setBoxLoad(false);
+      console.log(response.data);
     } catch (err) {
       setError("Failed to fetch data.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const renderStatsCard = () => {
+    if (!data)
+      return (
+        <div>
+          <Text align={"center"}>No Player Data For This Week</Text>
+          <Box height="100vh" />
+        </div>
+      );
+    // return <PlayerStatsCard stats={data} />;
+
+    if (data.player === "Taysom Hill") {
+      return <TaysomStatsCard stats={data} />;
+    } else {
+      switch (data.position) {
+        case "QB":
+          return <QBStatsCard stats={data} />;
+        case "WR":
+          return <WRStatsCard stats={data} />;
+        case "RB":
+          return <RBStatsCard stats={data} />;
+        case "TE":
+          return <TEStatsCard stats={data} />;
+        default:
+          return (
+            <div>
+              <Text align={"center"}>No Player Data For This Week</Text>
+              <Box height="100vh" />
+            </div>
+          );
+      }
     }
   };
 
@@ -116,9 +164,48 @@ const PlayerDataEntry: React.FC = () => {
           placeholder="Enter player name"
           value={playerName}
           onChange={(e) => setPlayerName(e.target.value)}
+          width="200px"
         />
       </Box>
-      <Box mb={4}>
+      <Flex mb={4} gap={4}>
+        <Box flex="1">
+          <Text mb={2}>Week:</Text>
+          <Input
+            placeholder="Enter week number"
+            value={week}
+            onChange={(e) => setWeek(e.target.value)}
+          />
+        </Box>
+        <Box flex="1">
+          <Text mb={2}>Season:</Text>
+          <Select
+            placeholder="Select year"
+            value={season}
+            onChange={(e) => setSeason(e.target.value)}
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </Select>
+        </Box>
+        <Box flex="1">
+          <Text mb={2}>Stat Name:</Text>
+          <Select
+            placeholder="Select stat"
+            value={statName}
+            onChange={(e) => setStatName(e.target.value)}
+          >
+            {columns.map((column) => (
+              <option key={column} value={column}>
+                {column}
+              </option>
+            ))}
+          </Select>
+        </Box>
+      </Flex>
+      {/* <Box mb={4}>
         <Text mb={2}>Week:</Text>
         <Input
           placeholder="Enter week number"
@@ -153,10 +240,15 @@ const PlayerDataEntry: React.FC = () => {
             </option>
           ))}
         </Select>
-      </Box>
+      </Box> */}
       <Button colorScheme="blue" onClick={fetchData} isLoading={loading}>
         Fetch Data
       </Button>
+      {boxLoad && (
+        <Flex>
+          <Box height="100vh" />
+        </Flex>
+      )}
 
       {loading && <Text mt={4}>Loading...</Text>}
       {error && (
@@ -164,11 +256,13 @@ const PlayerDataEntry: React.FC = () => {
           {error}
         </Text>
       )}
-      {data && (
+      {data && <Box mt={4}>{renderStatsCard()}</Box>}
+
+      {/* {data && (
         <Box mt={4}>
           <PlayerStatsCard stats={data} />
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };

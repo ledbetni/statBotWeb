@@ -123,8 +123,35 @@ async def statbot():
     playerFumblesLost = playerWeekData['sack_fumbles_lost'] + playerWeekData['rushing_fumbles_lost'] + playerWeekData['receiving_fumbles_lost']
     playerFumblesLostStr = playerFumblesLost.to_string(index=False)
 
-    cleanTargetShare = playerWeekData['target_share'] * 100
-    cleanShare = cleanTargetShare.to_string(index=False)
+    cleanTargetSharePercent = playerWeekData['target_share'].iloc[0] * 100.0
+    cleanTargetShare = round(cleanTargetSharePercent, 2)
+    cleanTargetShareStr = str(cleanTargetShare)
+
+    cleanAirYardSharePercent = playerWeekData['air_yards_share'].iloc[0] * 100.0
+    cleanAirYardShare = round(cleanAirYardSharePercent, 2)
+    cleanAirYardShareStr = str(cleanAirYardShare)
+
+    cleanPACR = round(playerWeekData['pacr'], 2)
+    cleanPACRStr = cleanPACR.to_string(index=False)
+
+    cleanPassingEPA = round(playerWeekData['passing_epa'], 2)
+    cleanPassingEPAStr = cleanPassingEPA.to_string(index=False)
+
+    cleanRushingEPA = round(playerWeekData['rushing_epa'], 2)
+    cleanRushingEPAStr = cleanRushingEPA.to_string(index=False)
+
+    cleanReceivingEPA = round(playerWeekData['receiving_epa'], 2)
+    cleanReceivingEPAStr = cleanReceivingEPA.to_string(index=False)
+
+    cleanReceivingWOPR = round(playerWeekData['wopr'], 2)
+    cleanReceivingWOPRStr = cleanReceivingWOPR.to_string(index=False)
+
+    cleanReceivingRACR = round(playerWeekData['racr'], 2)
+    cleanReceivingRACRStr = cleanReceivingRACR.to_string(index=False)
+
+    cleanFantasyPointsPPR = round(playerWeekData['fantasy_points_ppr'].iloc[0], 2)
+    cleanFantasyPointsPPRStr = str(cleanFantasyPointsPPR)
+    
 
     # Example of a recap response for a QB
     if stat == 'recap':
@@ -141,7 +168,7 @@ async def statbot():
                 "opponent": playerOpponent,
                 "dakota": playerDakota,
                 "fantasy_points": playerFantasyPoints,
-                "fantasy_points_ppr": playerFantasyPointsPPR,
+                "fantasy_points_ppr": cleanFantasyPointsPPRStr,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
@@ -153,8 +180,8 @@ async def statbot():
                     "passing_air_yards": playerPassingAirYards,
                     "passing_yards_after_catch": playerPassingYAC,
                     "passing_first_downs": playerPassingFirstDowns,
-                    "passing_epa": playerPassingEPA,
-                    "pacr": playerPACR,
+                    "passing_epa": cleanPassingEPAStr,
+                    "pacr": cleanPACRStr,
                 },
                 "rushing": {
                     "carries": playerCarries,
@@ -162,7 +189,7 @@ async def statbot():
                     "touchdowns": playerRushingTds,
                     # "2pt_conversions": playerRushing2ptConversions,
                     "rushing_first_downs": playerRushingFirstDowns,
-                    "rushing_epa": playerRushingEPA,
+                    "rushing_epa": cleanRushingEPAStr,
                 },
                 # "receiving": {
                 #     "receptions": playerReceptions,
@@ -170,8 +197,14 @@ async def statbot():
                 #     "yards": playerReceivingYards,
                 #     "yards_after_catch": playerReceivingYardsAfterCatch,
                 #     "touchdowns": playerReceivingTds,
-                #     "2pt_conversions": playerReceiving2ptConversions,
-                #     "target_share": cleanShare + "%"
+                #     # "2pt_conversions": playerReceiving2ptConversions,
+                #     "target_share": cleanTargetShareStr + "%",
+                #     "receiving_air_yards": playerReceivingAirYards,
+                #     "receiving_first_downs": playerReceivingFirstDowns,
+                #     "receiving_epa": cleanReceivingEPAStr,
+                #     "racr": cleanReceivingRACRStr,
+                #     "air_yards_share": cleanAirYardShareStr + "%",
+                #     "wopr": cleanReceivingWOPRStr,
                 # },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
@@ -194,7 +227,7 @@ async def statbot():
                 "opponent": playerOpponent,
                 "dakota": playerDakota,
                 "fantasy_points": playerFantasyPoints,
-                "fantasy_points_ppr": playerFantasyPointsPPR,
+                "fantasy_points_ppr": cleanFantasyPointsPPRStr,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
@@ -202,7 +235,12 @@ async def statbot():
                     "touchdowns": playerPassingTds,
                     # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
-                    "sack_yards": playerSackYardsTaken
+                    "sack_yards": playerSackYardsTaken,
+                    "passing_air_yards": playerPassingAirYards,
+                    "passing_yards_after_catch": playerPassingYAC,
+                    "passing_first_downs": playerPassingFirstDowns,
+                    "passing_epa": cleanPassingEPAStr,
+                    "pacr": cleanPACRStr,
                 },
                 "rushing": {
                     "carries": playerCarries,
@@ -210,7 +248,7 @@ async def statbot():
                     "touchdowns": playerRushingTds,
                     # "2pt_conversions": playerRushing2ptConversions,
                     "rushing_first_downs": playerRushingFirstDowns,
-                    "rushing_epa": playerRushingEPA,
+                    "rushing_epa": cleanRushingEPAStr,
                 },
                 "receiving": {
                     "receptions": playerReceptions,
@@ -219,13 +257,13 @@ async def statbot():
                     "yards_after_catch": playerReceivingYardsAfterCatch,
                     "touchdowns": playerReceivingTds,
                     # "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%",
+                    "target_share": cleanTargetShareStr + "%",
                     "receiving_air_yards": playerReceivingAirYards,
                     "receiving_first_downs": playerReceivingFirstDowns,
-                    "receiving_epa": playerReceivingEPA,
-                    "racr": playerRacr,
-                    "air_yards_share": playerAirYardsShare,
-                    "wopr": playerWopr,
+                    "receiving_epa": cleanReceivingEPAStr,
+                    "racr": cleanReceivingRACRStr,
+                    "air_yards_share": cleanAirYardShareStr + "%",
+                    "wopr": cleanReceivingWOPRStr,
                 },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
@@ -248,7 +286,7 @@ async def statbot():
                 "opponent": playerOpponent,
                 "dakota": playerDakota,
                 "fantasy_points": playerFantasyPoints,
-                "fantasy_points_ppr": playerFantasyPointsPPR,
+                "fantasy_points_ppr": cleanFantasyPointsPPRStr,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
@@ -256,7 +294,12 @@ async def statbot():
                     "touchdowns": playerPassingTds,
                     # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
-                    "sack_yards": playerSackYardsTaken
+                    "sack_yards": playerSackYardsTaken,
+                    "passing_air_yards": playerPassingAirYards,
+                    "passing_yards_after_catch": playerPassingYAC,
+                    "passing_first_downs": playerPassingFirstDowns,
+                    "passing_epa": cleanPassingEPAStr,
+                    "pacr": cleanPACRStr,
                 },
                 "rushing": {
                     "carries": playerCarries,
@@ -264,7 +307,7 @@ async def statbot():
                     "touchdowns": playerRushingTds,
                     # "2pt_conversions": playerRushing2ptConversions,
                     "rushing_first_downs": playerRushingFirstDowns,
-                    "rushing_epa": playerRushingEPA,
+                    "rushing_epa": cleanRushingEPAStr,
                 },
                 "receiving": {
                     "receptions": playerReceptions,
@@ -273,13 +316,13 @@ async def statbot():
                     "yards_after_catch": playerReceivingYardsAfterCatch,
                     "touchdowns": playerReceivingTds,
                     # "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%",
+                    "target_share": cleanTargetShareStr + "%",
                     "receiving_air_yards": playerReceivingAirYards,
                     "receiving_first_downs": playerReceivingFirstDowns,
                     "receiving_epa": playerReceivingEPA,
-                    "racr": playerRacr,
-                    "air_yards_share": playerAirYardsShare,
-                    "wopr": playerWopr,
+                    "racr": cleanReceivingRACRStr,
+                    "air_yards_share": cleanAirYardShareStr + "%",
+                    "wopr": cleanReceivingWOPRStr,
                 },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
@@ -302,7 +345,7 @@ async def statbot():
                 "opponent": playerOpponent,
                 "dakota": playerDakota,
                 "fantasy_points": playerFantasyPoints,
-                "fantasy_points_ppr": playerFantasyPointsPPR,
+                "fantasy_points_ppr": cleanFantasyPointsPPRStr,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
@@ -310,7 +353,12 @@ async def statbot():
                     "touchdowns": playerPassingTds,
                     # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
-                    "sack_yards": playerSackYardsTaken
+                    "sack_yards": playerSackYardsTaken,
+                    "passing_air_yards": playerPassingAirYards,
+                    "passing_yards_after_catch": playerPassingYAC,
+                    "passing_first_downs": playerPassingFirstDowns,
+                    "passing_epa": cleanPassingEPAStr,
+                    "pacr": cleanPACRStr,
                 },
                 "rushing": {
                     "carries": playerCarries,
@@ -318,7 +366,7 @@ async def statbot():
                     "touchdowns": playerRushingTds,
                     # "2pt_conversions": playerRushing2ptConversions,
                     "rushing_first_downs": playerRushingFirstDowns,
-                    "rushing_epa": playerRushingEPA,
+                    "rushing_epa": cleanRushingEPAStr,
                 },
                 "receiving": {
                     "receptions": playerReceptions,
@@ -327,13 +375,13 @@ async def statbot():
                     "yards_after_catch": playerReceivingYardsAfterCatch,
                     "touchdowns": playerReceivingTds,
                     # "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%",
+                    "target_share": cleanTargetShareStr + "%",
                     "receiving_air_yards": playerReceivingAirYards,
                     "receiving_first_downs": playerReceivingFirstDowns,
                     "receiving_epa": playerReceivingEPA,
-                    "racr": playerRacr,
-                    "air_yards_share": playerAirYardsShare,
-                    "wopr": playerWopr,
+                    "racr": cleanReceivingRACRStr,
+                    "air_yards_share": cleanAirYardShareStr + "%",
+                    "wopr": cleanReceivingWOPRStr,
                 },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,
@@ -356,7 +404,7 @@ async def statbot():
                 "opponent": playerOpponent,
                 "dakota": playerDakota,
                 "fantasy_points": playerFantasyPoints,
-                "fantasy_points_ppr": playerFantasyPointsPPR,
+                "fantasy_points_ppr": cleanFantasyPointsPPRStr,
                 "passing": {
                     "completions": playerCompletions,
                     "attempts": playerAttempts,
@@ -364,7 +412,12 @@ async def statbot():
                     "touchdowns": playerPassingTds,
                     # "2pt_conversions": playerPassing2ptConversions,
                     "sacks": playerSacksTaken,
-                    "sack_yards": playerSackYardsTaken
+                    "sack_yards": playerSackYardsTaken,
+                    "passing_air_yards": playerPassingAirYards,
+                    "passing_yards_after_catch": playerPassingYAC,
+                    "passing_first_downs": playerPassingFirstDowns,
+                    "passing_epa": cleanPassingEPAStr,
+                    "pacr": cleanPACRStr,
                 },
                 "rushing": {
                     "carries": playerCarries,
@@ -372,7 +425,7 @@ async def statbot():
                     "touchdowns": playerRushingTds,
                     # "2pt_conversions": playerRushing2ptConversions,
                     "rushing_first_downs": playerRushingFirstDowns,
-                    "rushing_epa": playerRushingEPA,
+                    "rushing_epa": cleanRushingEPAStr,
                 },
                 "receiving": {
                     "receptions": playerReceptions,
@@ -381,13 +434,13 @@ async def statbot():
                     "yards_after_catch": playerReceivingYardsAfterCatch,
                     "touchdowns": playerReceivingTds,
                     # "2pt_conversions": playerReceiving2ptConversions,
-                    "target_share": cleanShare + "%",
+                    "target_share": cleanTargetShareStr + "%",
                     "receiving_air_yards": playerReceivingAirYards,
                     "receiving_first_downs": playerReceivingFirstDowns,
                     "receiving_epa": playerReceivingEPA,
-                    "racr": playerRacr,
-                    "air_yards_share": playerAirYardsShare,
-                    "wopr": playerWopr,
+                    "racr": cleanReceivingRACRStr,
+                    "air_yards_share": cleanAirYardShareStr + "%",
+                    "wopr": cleanReceivingWOPRStr,
                 },
                 "turnovers": {
                     "interceptions": playerInterceptionsThrown,

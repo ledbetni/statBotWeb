@@ -7,8 +7,10 @@ import {
   useColorMode,
   useColorModeValue,
   Button,
+  Icon,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { FaDiscord } from "react-icons/fa";
 
 function AppBar() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -54,6 +56,14 @@ function AppBar() {
         </Heading>
         <Box width="800px"></Box>
         <Flex>
+          <Link
+            href="https://discord.com/oauth2/authorize?client_id=1159784834458206278"
+            isExternal
+            marginRight={4}
+            _hover={{ textDecoration: "none" }}
+          >
+            <Icon as={FaDiscord} w={10} h={10} />
+          </Link>
           <Button onClick={toggleColorMode} marginLeft="auto">
             {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           </Button>
