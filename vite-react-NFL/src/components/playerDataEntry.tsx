@@ -104,7 +104,7 @@ const PlayerDataEntry: React.FC = () => {
     setError(null);
     try {
       const response = await axios.post<StatbotData>(
-        "http://34.82.250.65:5000/statbot",
+        "https://34.82.250.65:5000/statbot",
         {
           args: [playerName, week, statName, season],
         }
