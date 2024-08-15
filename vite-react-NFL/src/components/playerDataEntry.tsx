@@ -99,7 +99,7 @@ const PlayerDataEntry: React.FC = () => {
     fetchColumns();
   }, []);
 
-  axiosRetry(axios, { retries: 5 });
+  axiosRetry(axios, { retries: 10 });
 
   const fetchData = async () => {
     console.log("fetchData function called");
