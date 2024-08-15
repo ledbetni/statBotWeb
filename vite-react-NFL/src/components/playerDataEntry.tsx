@@ -158,7 +158,9 @@ const PlayerDataEntry: React.FC = () => {
         Statbot Data
       </Heading> */}
       <Box mb={4}>
-        <Text mb={2}>Player Name:</Text>
+        <Text fontWeight={"bold"} mb={2}>
+          Player Name:
+        </Text>
         <Input
           placeholder="Enter player name"
           value={playerName}
@@ -166,7 +168,7 @@ const PlayerDataEntry: React.FC = () => {
           width="200px"
         />
       </Box>
-      <Flex mb={4} gap={4}>
+      <Flex fontWeight={"bold"} mb={4} gap={4}>
         <Box flex="1">
           <Text mb={2}>Week:</Text>
           <Input
@@ -175,7 +177,7 @@ const PlayerDataEntry: React.FC = () => {
             onChange={(e) => setWeek(e.target.value)}
           />
         </Box>
-        <Box flex="1">
+        <Box fontWeight={"bold"} flex="1">
           <Text mb={2}>Season:</Text>
           <Select
             placeholder="Select year"
@@ -189,7 +191,7 @@ const PlayerDataEntry: React.FC = () => {
             ))}
           </Select>
         </Box>
-        <Box flex="1">
+        <Box fontWeight={"bold"} flex="1">
           <Text mb={2}>Stat Name:</Text>
           <Select
             placeholder="Select stat"
