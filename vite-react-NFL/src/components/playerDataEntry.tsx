@@ -171,11 +171,22 @@ const PlayerDataEntry: React.FC = () => {
       <Flex fontWeight={"bold"} mb={4} gap={4}>
         <Box flex="1">
           <Text mb={2}>Week:</Text>
-          <Input
+          {/* <Input
             placeholder="Enter week number"
             value={week}
             onChange={(e) => setWeek(e.target.value)}
-          />
+          /> */}
+          <Select
+            placeholder="Select week"
+            value={week}
+            onChange={(e) => setWeek(e.target.value)}
+          >
+            {Array.from({ length: 18 }, (_, index) => (
+              <option key={index + 1} value={index + 1}>
+                {index + 1}
+              </option>
+            ))}
+          </Select>
         </Box>
         <Box fontWeight={"bold"} flex="1">
           <Text mb={2}>Season:</Text>
