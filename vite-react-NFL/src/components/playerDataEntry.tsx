@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Input, Button, Text, Select, Flex } from "@chakra-ui/react";
-import PlayerStatsCard from "./playerStatsCard";
 import QBStatsCard from "./qbStatCard";
 import WRStatsCard from "./wrStatCard";
 import RBStatsCard from "./rbStatCard";
@@ -86,9 +85,9 @@ const PlayerDataEntry: React.FC = () => {
   useEffect(() => {
     const fetchColumns = async () => {
       try {
-        const response = await axios.get<string[]>(
-          "http://34.82.250.65:5000/columns"
-        );
+        // const response = await axios.get<string[]>(
+        //   "http://34.82.250.65:5000/columns"
+        // );
         //setColumns(["recap", ...response.data]);
         setColumns(["recap"]);
       } catch (err) {

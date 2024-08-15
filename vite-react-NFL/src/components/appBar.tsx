@@ -28,17 +28,6 @@ function AppBar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToProjects = () => {
-    const projectsSection = document.getElementById("projects");
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   return (
     <Box
       as="header"

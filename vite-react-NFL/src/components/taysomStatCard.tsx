@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Image,
-  Text,
-  VStack,
-  HStack,
-  Divider,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Image, Text, VStack, Divider, Flex } from "@chakra-ui/react";
 import DynamicTooltip from "./dynamicToolTip";
 
 interface TaysomStats {
