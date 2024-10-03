@@ -179,6 +179,9 @@ const PlayerDataEntry: React.FC = () => {
 
   return (
     <Box p={5} maxW="500px" mx="auto">
+      <Text color="red" fontSize="20px">
+        Website Currently Down For Maintenance
+      </Text>
       {/* <Heading as="h1" mb={4}>
         Statbot Data
       </Heading> */}
