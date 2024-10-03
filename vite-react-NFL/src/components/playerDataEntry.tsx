@@ -80,7 +80,7 @@ const PlayerDataEntry: React.FC = () => {
 
   const years = Array.from(
     new Array(25),
-    (_, index) => new Date().getFullYear() - 1 - index
+    (_, index) => new Date().getFullYear() - index
   );
 
   useEffect(() => {
@@ -155,6 +155,28 @@ const PlayerDataEntry: React.FC = () => {
     }
   };
 
+  const getWeeksSinceWeekOne = () => {
+    const weekOne = new Date("2024-09-08");
+    const today = new Date();
+    const oneWeek = 1000 * 60 * 60 * 24 * 7;
+
+    if (today < weekOne) {
+      return 1;
+    }
+    const diffInMs = today.getTime() - weekOne.getTime();
+    const weeksSince = Math.ceil(diffInMs / oneWeek);
+    return Math.min(weeksSince, 18);
+  };
+
+  const getWeekOptions = () => {
+    if (season == "2024") {
+      const maxWeeks = getWeeksSinceWeekOne();
+      return Array.from({ length: maxWeeks }, (_, i) => (i + 1).toString());
+    } else {
+      return Array.from({ length: 18 }, (_, i) => (i + 1).toString());
+    }
+  };
+
   return (
     <Box p={5} maxW="500px" mx="auto">
       {/* <Heading as="h1" mb={4}>
@@ -174,19 +196,19 @@ const PlayerDataEntry: React.FC = () => {
       <Flex fontWeight={"bold"} mb={4} gap={4}>
         <Box flex="1">
           <Text mb={2}>Week:</Text>
-          {/* <Input
-            placeholder="Enter week number"
-            value={week}
-            onChange={(e) => setWeek(e.target.value)}
-          /> */}
           <Select
             placeholder="Select"
             value={week}
             onChange={(e) => setWeek(e.target.value)}
           >
-            {Array.from({ length: 18 }, (_, index) => (
+            {/* {Array.from({ length: 18 }, (_, index) => (
               <option key={index + 1} value={index + 1}>
                 {index + 1}
+              </option>
+            ))} */}
+            {getWeekOptions().map((weekOption) => (
+              <option key={weekOption} value={weekOption}>
+                {weekOption}
               </option>
             ))}
           </Select>
