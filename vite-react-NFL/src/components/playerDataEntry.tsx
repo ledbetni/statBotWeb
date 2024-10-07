@@ -180,7 +180,8 @@ const PlayerDataEntry: React.FC = () => {
   return (
     <Box p={5} maxW="500px" mx="auto">
       <Text color="red" fontSize="20px">
-        Website Currently Down For Maintenance
+        StatBot Currently Down for Maintenance While We Resolve Hosting Cost
+        Issues, Thank You For Your Patience
       </Text>
       {/* <Heading as="h1" mb={4}>
         Statbot Data
