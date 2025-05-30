@@ -1,6 +1,8 @@
 //import { BrowserRouter as Routes, Route } from "react-router-dom";
 import "./App.css";
 import WeeklyStats from "./pages/weeklyStats";
+import AppBar from "./components/appBar";
+import Navbar from "./components/navBar";
 
 // function App() {
 //   return (
@@ -38,8 +40,6 @@ function App() {
   // );
   return (
     // <>
-    //   <AppBar />
-    //   <Navbar />
     //   <Routes>
     //     <Route path="/" element={<WeeklyStats />} />
     //     <Route path="/weekly" element={<WeeklyStats />} />
@@ -47,7 +47,11 @@ function App() {
     //   </Routes>
     //   <Footer />
     // </>
-    <WeeklyStats />
+    <>
+      <AppBar />
+      <Navbar />
+      <WeeklyStats />
+    </>
   );
 }
 
