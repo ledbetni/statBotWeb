@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import { Box, Input, Button, Text, Select, Flex } from "@chakra-ui/react";
+import { Box, Button, Text, Select, Flex } from "@chakra-ui/react";
 import QBStatsCard from "./qbStatCard";
 import WRStatsCard from "./wrStatCard";
 import RBStatsCard from "./rbStatCard";

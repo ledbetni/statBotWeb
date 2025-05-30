@@ -1,13 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Box, Flex } from "@chakra-ui/react";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 import AppBar from "./components/appBar";
 import Footer from "./components/footer";
 import Navbar from "./components/navBar";
 import "./App.css";
-import PlayerDataEntry from "./components/playerDataEntry";
-import Home from "./pages/home";
 import WeeklyStats from "./pages/weeklyStats";
-import { ChakraProvider } from "@chakra-ui/react";
 
 // function App() {
 //   return (
