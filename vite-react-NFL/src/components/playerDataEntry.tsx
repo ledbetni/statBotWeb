@@ -114,7 +114,7 @@ const PlayerDataEntry: React.FC = () => {
       //   }
       // );
       const response = await axios.post<StatbotData>(
-        "https://sslstatbot.com/weekly",
+        "https://127.0.0.1/weekly",
         {
           args: [playerName, week, statName, season],
         }

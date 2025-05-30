@@ -15,7 +15,7 @@ export default function PlayerSearchBox({ onSelect }: PlayerSearchBoxProps) {
   const fetchSuggestions = () => {
     if (query.length > 0) {
       axios
-        .get(`https://sslstatbot.com/search?q=${query}`)
+        .get(`https://127.0.0.1/search?q=${query}`)
         .then((res) => {
           const sorted = res.data.sort((a: string, b: string) =>
             a.localeCompare(b)
