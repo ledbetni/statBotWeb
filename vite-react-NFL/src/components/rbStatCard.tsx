@@ -29,12 +29,11 @@ interface RBStats {
     pacr: string;
   };
   rushing?: {
-    // "2pt_conversions": string;
     carries: string;
     yards: string;
     touchdowns: string;
-    rushing_first_downs: string;
-    rushing_epa: string;
+    first_downs: string;
+    epa: string;
   };
   receiving?: {
     // "2pt_conversions": string;
@@ -92,7 +91,7 @@ const RBStatsCard: React.FC<RBStatsProps> = ({ stats }) => {
           <Text>Fantasy Points PPR: {stats.fantasy_points_ppr}</Text>
         </Flex>
 
-        <Divider></Divider>
+        {/* <Divider></Divider> */}
 
         {stats.passing &&
           (stats.passing.attempts !== "0" ||
@@ -167,8 +166,8 @@ const RBStatsCard: React.FC<RBStatsProps> = ({ stats }) => {
           (stats.rushing.carries !== "0" ||
             stats.rushing.yards !== "0.0" ||
             stats.rushing.touchdowns !== "0" ||
-            stats.rushing.rushing_first_downs !== "0.0" ||
-            stats.rushing.rushing_epa !== "NaN") && (
+            stats.rushing.first_downs !== "0.0" ||
+            stats.rushing.epa !== "NaN") && (
             <VStack align="start">
               <Text fontWeight="bold">Rushing:</Text>
               {stats.rushing.carries !== "0" && (
@@ -180,15 +179,13 @@ const RBStatsCard: React.FC<RBStatsProps> = ({ stats }) => {
               {stats.rushing.touchdowns !== null && (
                 <Text>Touchdowns: {stats.rushing.touchdowns}</Text>
               )}
-              {stats.rushing.rushing_first_downs !== "0.0" && (
-                <Text>
-                  Rushing First Downs: {stats.rushing.rushing_first_downs}
-                </Text>
+              {stats.rushing.first_downs !== "0.0" && (
+                <Text>Rushing First Downs: {stats.rushing.first_downs}</Text>
               )}
-              {stats.rushing.rushing_epa !== "NaN" && (
+              {stats.rushing.epa !== "NaN" && (
                 <Flex>
                   <DynamicTooltip message="Expected Points Added: measures how well a player performs compared to their expectation" />
-                  <Text>Rushing EPA: {stats.rushing.rushing_epa}</Text>
+                  <Text>Rushing EPA: {stats.rushing.epa}</Text>
                 </Flex>
               )}
             </VStack>

@@ -9,9 +9,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider>
       <BrowserRouter>
-        <Routes>
-          <Route index element={<App />} />
-        </Routes>
+        <App />
       </BrowserRouter>
     </ChakraProvider>
   </React.StrictMode>

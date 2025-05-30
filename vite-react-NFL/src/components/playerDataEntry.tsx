@@ -7,6 +7,7 @@ import WRStatsCard from "./wrStatCard";
 import RBStatsCard from "./rbStatCard";
 import TEStatsCard from "./teStatCard";
 import TaysomStatsCard from "./taysomStatCard";
+import PlayerSearchBox from "./searchBar";
 
 interface StatbotData {
   image: string;
@@ -35,12 +36,11 @@ interface StatbotData {
     pacr: string;
   };
   rushing?: {
-    // "2pt_conversions": string;
     carries: string;
     yards: string;
     touchdowns: string;
-    rushing_first_downs: string;
-    rushing_epa: string;
+    first_downs: string;
+    epa: string;
   };
   receiving?: {
     // "2pt_conversions": string;
@@ -78,9 +78,10 @@ const PlayerDataEntry: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [boxLoad, setBoxLoad] = useState<boolean>(true);
 
+  const currentYear = new Date().getFullYear();
   const years = Array.from(
-    new Array(25),
-    (_, index) => new Date().getFullYear() - index
+    { length: currentYear - 1999 + 1 },
+    (_, index) => currentYear - index
   );
 
   useEffect(() => {
@@ -106,8 +107,14 @@ const PlayerDataEntry: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
+      // const response = await axios.post<StatbotData>(
+      //   "https://sslstatbot.com/weekly",
+      //   {
+      //     args: [playerName, week, statName, season],
+      //   }
+      // );
       const response = await axios.post<StatbotData>(
-        "https://sslstatbot.com/statbot",
+        "https://sslstatbot.com/weekly",
         {
           args: [playerName, week, statName, season],
         }
@@ -179,23 +186,12 @@ const PlayerDataEntry: React.FC = () => {
 
   return (
     <Box p={5} maxW="500px" mx="auto">
-      <Text color="red" fontSize="20px">
-        StatBot Currently Down for Maintenance While We Resolve Hosting Cost
-        Issues, Thank You For Your Patience
-      </Text>
-      {/* <Heading as="h1" mb={4}>
-        Statbot Data
-      </Heading> */}
       <Box mb={4}>
         <Text fontWeight={"bold"} mb={2}>
           Player Name:
         </Text>
-        <Input
-          placeholder="Enter player name"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          width="200px"
-        />
+
+        <PlayerSearchBox onSelect={(name) => setPlayerName(name)} />
       </Box>
       <Flex fontWeight={"bold"} mb={4} gap={4}>
         <Box flex="1">
@@ -205,11 +201,6 @@ const PlayerDataEntry: React.FC = () => {
             value={week}
             onChange={(e) => setWeek(e.target.value)}
           >
-            {/* {Array.from({ length: 18 }, (_, index) => (
-              <option key={index + 1} value={index + 1}>
-                {index + 1}
-              </option>
-            ))} */}
             {getWeekOptions().map((weekOption) => (
               <option key={weekOption} value={weekOption}>
                 {weekOption}
@@ -246,42 +237,6 @@ const PlayerDataEntry: React.FC = () => {
           </Select>
         </Box>
       </Flex>
-      {/* <Box mb={4}>
-        <Text mb={2}>Week:</Text>
-        <Input
-          placeholder="Enter week number"
-          value={week}
-          onChange={(e) => setWeek(e.target.value)}
-        />
-      </Box>
-      <Box mb={4}>
-        <Text mb={2}>Season:</Text>
-        <Select
-          placeholder="Select year"
-          value={season}
-          onChange={(e) => setSeason(e.target.value)}
-        >
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </Select>
-      </Box>
-      <Box mb={4}>
-        <Text mb={2}>Stat Name:</Text>
-        <Select
-          placeholder="Select stat"
-          value={statName}
-          onChange={(e) => setStatName(e.target.value)}
-        >
-          {columns.map((column) => (
-            <option key={column} value={column}>
-              {column}
-            </option>
-          ))}
-        </Select>
-      </Box> */}
       <Button colorScheme="blue" onClick={fetchData} isLoading={loading}>
         Fetch Data
       </Button>
@@ -298,12 +253,6 @@ const PlayerDataEntry: React.FC = () => {
         </Text>
       )}
       {data && <Box mt={4}>{renderStatsCard()}</Box>}
-
-      {/* {data && (
-        <Box mt={4}>
-          <PlayerStatsCard stats={data} />
-        </Box>
-      )} */}
     </Box>
   );
 };
