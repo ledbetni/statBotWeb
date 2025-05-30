@@ -1,7 +1,4 @@
-import { BrowserRouter as Routes, Route } from "react-router-dom";
-import AppBar from "./components/appBar";
-import Footer from "./components/footer";
-import Navbar from "./components/navBar";
+//import { BrowserRouter as Routes, Route } from "react-router-dom";
 import "./App.css";
 import WeeklyStats from "./pages/weeklyStats";
 
