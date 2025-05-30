@@ -40,16 +40,17 @@ function App() {
   //   </div>
   // );
   return (
-    <>
-      <AppBar />
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<WeeklyStats />} />
-        <Route path="/weekly" element={<WeeklyStats />} />
-        <Route path="/season-rankings" element={<WeeklyStats />} />
-      </Routes>
-      <Footer />
-    </>
+    // <>
+    //   <AppBar />
+    //   <Navbar />
+    //   <Routes>
+    //     <Route path="/" element={<WeeklyStats />} />
+    //     <Route path="/weekly" element={<WeeklyStats />} />
+    //     <Route path="/season-rankings" element={<WeeklyStats />} />
+    //   </Routes>
+    //   <Footer />
+    // </>
+    <WeeklyStats />
   );
 }
 
